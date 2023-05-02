@@ -1,26 +1,28 @@
-CXX = gcc++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17
+CC = gcc++
+FLAGS = -Wall -Wextra -Werror -std=c++17
+CFLAGS = -Wall -Werror -Wextra
 
-LIB_NAME = s21_matrix_opp
+LIB_NAME = s21_matrix_oop
 
-SRCS = $(wildcard s21_*.cpp)
+SRCS=$(wildcard s21_*.cpp)
 
-OBJS = $(SRCS:.c=.o)
+OBJS=$(SRCS:.c=.o)
 
 all: $(LIB_NAME).a test clean
 
-%.o: %.c 
-		$(CXX) $(CXXFLAGS) -c $< -o $@
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
 
 $(LIB_NAME).a: $(OBJS)
-		ar rc $(LIB_NAME).a $^
-		randlib $(LIB_NAME)
-		rm -rf *.o
+	ar rc $(LIB_NAME).a $^
+	ranlib $(LIB_NAME).a
+	rm -rf *.o
 
-test: 
-		@rm -rf build
-		@mkdir build
-		@cd build && cmake ../ && make && ./main
+test:
+	@rm -rf build
+	@mkdir build
+	@cd build && cmake ../ && make && ./main
 
 clean:
-		rm -rf *.o test *.a
+
+	rm -rf *.o test *.a

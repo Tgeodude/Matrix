@@ -75,6 +75,26 @@ S21Matrix &S21Matrix::operator=(const S21Matrix& other) {
     return *this;
 }
 
+S21Matrix& S21Matrix::operator+=(const S21Matrix& other) {
+    SumMatrix(other);
+    return *this;
+}
+
+S21Matrix& S21Matrix::operator-=(const S21Matrix& other) {
+    SubMatrix(other);
+    return *this;
+}
+
+S21Matrix& S21Matrix::operator*=(const double& other) {
+    MulNumber(other);
+    return *this;
+}
+
+S21Matrix& S21Matrix::operator*=(const S21Matrix& other) {
+    MulMatrix(other);
+    return *this;
+}
+
 double& S21Matrix::operator()(int i, int j) {
     if (i >= rows_ || j >= cols_) {
         throw std::logic_error("Invalid index");
@@ -83,7 +103,7 @@ double& S21Matrix::operator()(int i, int j) {
 }
 
 bool S21Matrix::EqMatrix(const S21Matrix& other) const{
-    if (!isValidMatrix || !other.isValidMatrix()) {
+    if (!isValidMatrix() || !other.isValidMatrix()) {
         throw std::logic_error("Invalid matrix");
     }
     if (rows_ != other.rows_ || cols_ != other.cols_) {
@@ -215,6 +235,22 @@ double S21Matrix::Determinant() const {
     return det;
 }
 
+S21Matrix S21Matrix::InverseMatrix() const {
+    if (!isValidMatrix()) {
+        throw std::logic_error("Invalid matrix");
+    }
+    if (rows_ != cols_) {
+        throw std::logic_error("Invalid operation");
+    }
+    double matrixDeterminant = Determinant();
+    if (fabs(matrixDeterminant - 0) <= 1E-7) {
+        throw std::logic_error("Invalid operation");
+    }
+    S21Matrix result = CalcComplements().Transpose();
+    result.MulNumber(1/matrixDeterminant);
+    return result;
+}
+
 S21Matrix S21Matrix::CalcComplements() const {
     if (!isValidMatrix()) {
         throw std::logic_error("Invalid matrix");
@@ -253,19 +289,19 @@ S21Matrix S21Matrix::getMatrixForMinor(int row, int col) const {
     return result;
 }
 
-int S21Matrix::getRows() const {
+int S21Matrix::GetRows() const {
     return rows_;
 }
 
-int S21Matrix::getCols() const {
+int S21Matrix::GetCols() const {
     return cols_;
 }
 
-void S21Matrix::setRows(const int rows) {
+void S21Matrix::SetRows(const int rows) {
     this -> rows_ = rows;
 }
 
-void S21Matrix::setCols(const int cols) {
+void S21Matrix::SetCols(const int cols) {
     this -> cols_ = cols;
 }
 

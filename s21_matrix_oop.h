@@ -17,10 +17,10 @@ class S21Matrix {
         ~S21Matrix(); // Деструктор        
 
         S21Matrix &operator=(const S21Matrix& other);
-        S21Matrix& operator+=(const S21Matrix& other);
-        S21Matrix& operator-=(const S21Matrix& other);
-        S21Matrix& operator*=(const double& other);
-        S21Matrix& operator*=(const S21Matrix& other);
+        S21Matrix &operator+=(const S21Matrix& other);
+        S21Matrix &operator-=(const S21Matrix& other);
+        S21Matrix &operator*=(const double& other);
+        S21Matrix &operator*=(const S21Matrix& other);
 
         double& operator()(int i, int j);
 
@@ -34,10 +34,10 @@ class S21Matrix {
         double Determinant() const; // Вычисляет и возвращает определитель текущей матрицы
         S21Matrix InverseMatrix() const; // Вычисляет и возвращает обратную матрицу
 
-        int getRows() const;
-        int getCols() const;
-        void setRows(const int rows);
-        void setCols(const int cols);
+        int GetRows() const;
+        int GetCols() const;
+        void SetRows(const int rows);
+        void SetCols(const int cols);
 };
 
 S21Matrix operator+(const S21Matrix& lhs, const S21Matrix& other);
