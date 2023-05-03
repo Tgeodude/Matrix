@@ -13,7 +13,7 @@ class S21Matrix {
         S21Matrix(); // Базовый конструктор, инициализирующий матрицу некоторой заранее заданной размерностью
         S21Matrix(const int rows, const int cols); // Параметризированный конструктор с количеством строк и столбцов
         S21Matrix(const S21Matrix& other); // Конструктор копирования
-        S21Matrix(S21Matrix& other); // Конструктор переноса
+        S21Matrix(S21Matrix&& other); // Конструктор переноса
         ~S21Matrix(); // Деструктор        
 
         S21Matrix &operator=(const S21Matrix& other);
@@ -38,6 +38,8 @@ class S21Matrix {
         int GetCols() const;
         void SetRows(const int rows);
         void SetCols(const int cols);
+        double det(double **a, int n) const;
+        void new_pointer(double **a, double *b) const;
 };
 
 S21Matrix operator+(const S21Matrix& lhs, const S21Matrix& other);

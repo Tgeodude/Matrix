@@ -36,7 +36,7 @@ S21Matrix::S21Matrix(const S21Matrix& other) {
     operator=(other);
 }
 
-S21Matrix::S21Matrix(S21Matrix& other) {
+S21Matrix::S21Matrix(S21Matrix&& other) {
     this -> ~S21Matrix();
     rows_ = other.rows_;
     cols_ = other.cols_;
@@ -55,7 +55,7 @@ S21Matrix::~S21Matrix() {
     }
 }
 
-S21Matrix &S21Matrix::operator=(const S21Matrix& other) {
+S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
     if (!other.isValidMatrix()) {
         throw std::logic_error("Invalid matrix");
     }
@@ -67,9 +67,9 @@ S21Matrix &S21Matrix::operator=(const S21Matrix& other) {
                 temp.matrix_[i][j] = other.matrix_[i][j];
             }
         }
-        rows_ = temp.rows_;
-        cols_ = temp.cols_;
-        matrix_ = temp.matrix_;
+        this -> rows_ = temp.rows_;
+        this -> cols_ = temp.cols_;
+        this -> matrix_ = temp.matrix_;
         temp.matrix_ = nullptr;
     }
     return *this;
@@ -197,42 +197,7 @@ double S21Matrix::Determinant() const {
     if (rows_ != cols_) {
         throw std::logic_error("Invalid operation");
     }
-    double det = 1.0;
-    double **temp = (double**) malloc(rows_ * sizeof(double*));
-    for (int i = 0; i < rows_; i++) {
-        temp[i] = (double*) malloc(rows_ * sizeof(double));
-        for (int j = 0; j < rows_; j++) {
-            temp[i][j] = matrix_[i][j];
-        }
-    }
-    for (int k = 0; k < rows_ - 1; k++) {
-        int max_row = k;
-        double max_val = std::abs(temp[k][k]);
-        for (int i = k + 1; i < rows_; i++) {
-            if (std::abs(temp[i][k]) > max_val) {
-                max_val = std::abs(temp[i][k]);
-                max_row = i;
-            }
-        }
-        if (max_val == 0.0) {
-            return 0.0;
-        }
-        if (max_row != k) {
-            det = -det;
-            std::swap(temp[k], temp[max_row]);
-        }
-        for (int i = k + 1; i < rows_; i++) {
-            double f = temp[i][k] / temp[k][k];
-            for (int j = k + 1; j < rows_; j++) {
-                temp[i][j] -= f * temp[k][j];
-            }
-            temp[i][k] = 0.0;
-        }
-        det *= temp[k][k];
-    }
-    det *= temp[rows_-1][rows_-1];
-    free(temp);
-    return det;
+    return det(matrix_, rows_);
 }
 
 S21Matrix S21Matrix::InverseMatrix() const {
@@ -287,6 +252,32 @@ S21Matrix S21Matrix::getMatrixForMinor(int row, int col) const {
         }
     }
     return result;
+}
+
+void S21Matrix::new_pointer(double **a, double *b) const {
+    *a = b;
+}
+
+double S21Matrix::det(double **a, int n) const {
+    if (n == 1) {
+        return a[0][0];
+    }
+    if (n == 2) {
+        return a[0][0] * a[1][1] - a[0][1] * a[1][0];
+    }
+    int number = 0;
+    double sum = 0;
+    double **temp = (double**)malloc((n-1) * sizeof(double*));
+    for (int i = 0; i < n; i++) {
+        number = 0;
+        for (int j = 0; j < n; j++) {
+            if (i == j) continue;
+            new_pointer(&temp[number++], a[j]);
+        }
+        sum +=  pow(-1, i + n - 1) * a[i][n-1] * det(temp, n - 1);
+    }
+    free(temp);
+    return sum;
 }
 
 int S21Matrix::GetRows() const {
