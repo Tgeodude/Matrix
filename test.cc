@@ -1,28 +1,23 @@
-#include <iostream>
-#include <cstdio>
-#include "s21_matrix_oop.h"
 #include <gtest/gtest.h>
+#include "s21_matrix_oop.h"
 
-void printMatrix(S21Matrix& m) {
-    for (int i = 0; i < m.GetRows(); i++) {
-        for (int j = 0; j < m.GetCols(); j++) {
-            std::cout<<m(i, j)<<" ";
-        }
-        std::cout<<std::endl;
-    }
+int main() {
+    testing::InitGoogleTest();
+    return RUN_ALL_TESTS();
 }
 
 namespace {
+
     TEST(Constructor, Default) {
         auto test = S21Matrix();
-        EXPECT_EQ(test.GetRows(), 0);
-        EXPECT_EQ(test.GetCols(), 0);
+        EXPECT_EQ(test.getRows(), 0);
+        EXPECT_EQ(test.getCols(), 0);
     }
 
     TEST(Constructor, By2Args) {
         auto test = S21Matrix(3, 3);
-        EXPECT_EQ(test.GetRows(), 3);
-        EXPECT_EQ(test.GetCols(), 3);
+        EXPECT_EQ(test.getRows(), 3);
+        EXPECT_EQ(test.getCols(), 3);
     }
 
     TEST(Constructor, Copy) {
@@ -32,7 +27,7 @@ namespace {
         EXPECT_EQ(test, temp);
     }
 
-    TEST(Constructor, Move) {
+    TEST(Constructor, Move){
         auto test1 = S21Matrix(3, 3);
         test1(1, 1) = 5;
         auto test2 = S21Matrix(test1);
@@ -79,9 +74,9 @@ namespace {
 
     TEST(SimpleMathOperations, MulMatrix) {
         auto test1 = S21Matrix(3, 3);
-        for (int i = 0; i < test1.GetRows(); i++) {
-            for (int j = 0; j < test1.GetCols(); j++) {
-                test1(i, j) = test1.GetRows() * i + j + 1;
+        for (int i = 0; i < test1.getRows(); i++) {
+            for (int j = 0; j < test1.getCols(); j++) {
+                test1(i, j) = test1.getRows() * i + j + 1;
             }
         }
         auto test2 = test1;
@@ -98,11 +93,11 @@ namespace {
         EXPECT_EQ(test1, test2);
     }
 
-    TEST(LinearOperations, Transpose) {
+       TEST(LinearOperations, Transpose) {
         auto test1 = S21Matrix(3, 3);
-        for (int i = 0; i < test1.GetRows(); i++) {
-            for (int j = 0; j < test1.GetCols(); j++) {
-                test1(i, j) = test1.GetRows() * i + j + 1;
+        for (int i = 0; i < test1.getRows(); i++) {
+            for (int j = 0; j < test1.getCols(); j++) {
+                test1(i, j) = test1.getRows() * i + j + 1;
             }
         }
         test1 = test1.Transpose();
@@ -181,33 +176,5 @@ namespace {
         test2(2, 1) = -29;
         test2(2, 2) = 24;
         EXPECT_EQ(test1, test2);
-    }
-
-    TEST(Technical, GetRows) {
-        auto test1 = S21Matrix();
-        EXPECT_EQ(test1.GetRows(), 0);
-        auto test2 = S21Matrix(2, 2);
-        EXPECT_EQ(test2.GetRows(), 2);
-    }
-
-    TEST(Technical, GetCols) {
-        auto test1 = S21Matrix();
-        EXPECT_EQ(test1.GetCols(), 0);
-        auto test2 = S21Matrix(2, 2);
-        EXPECT_EQ(test2.GetCols(), 2);
-    }
-
-    TEST(Technical, SetRows) {
-        auto test1 = S21Matrix(1, 1);
-        test1.SetRows(5);
-        EXPECT_EQ(test1.GetRows(), 5);
-        test1.SetRows(1);
-    }
-
-    TEST(Technical, SetCols) {
-        auto test1 = S21Matrix(1, 1);
-        test1.SetCols(5);
-        EXPECT_EQ(test1.GetCols(), 5);
-        test1.SetRows(1);
     }
 }

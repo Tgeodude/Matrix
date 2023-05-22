@@ -1,28 +1,22 @@
-CC = gcc++
-FLAGS = -Wall -Wextra -Werror -std=c++17
-CFLAGS = -Wall -Werror -Wextra
+CC= g++ 
+CFLAGS= -Wall -Wextra -Werror
+STANDART= -std=c++17
+TESTFLAGS=-lgtest
+TESTFILES= *.cc
 
-LIB_NAME = s21_matrix_oop
+all: gcov_report
 
-SRCS=$(wildcard s21_*.cpp)
+test: clean
+	$(CC) $(CFLAGS) $(STANDART) $(TESTFILES) -o test $(TESTFLAGS)
+	./test
 
-OBJS=$(SRCS:.c=.o)
+gcov_report: clean
+	$(CC) $(CFLAGS) --coverage $(STANDART) $(TESTFILES) -o test $(TESTFLAGS)
+	./test
+	lcov -t "test" -o test.info -c -d . --no-external
+	genhtml -o report test.info
+	open report/index.html
 
-all: $(LIB_NAME).a test clean
-
-%.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
-
-$(LIB_NAME).a: $(OBJS)
-	ar rc $(LIB_NAME).a $^
-	ranlib $(LIB_NAME).a
-	rm -rf *.o
-
-test:
-	@rm -rf build
-	@mkdir build
-	@cd build && cmake ../ && make && ./main
-
-clean:
-
-	rm -rf *.o test *.a
+clean: 
+	rm -rf *.out *.o matrix_oop.a *.gcda *.gcno *.info test main
+	rm -rf report
