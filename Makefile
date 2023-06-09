@@ -29,8 +29,8 @@ clean:
 rebuild: clean all
 
 gcov_report: clean
-	g++ $(STANDART) --coverage test.cc s21_matrix_oop.cpp -o gcov_report -lgtest -lstdc++
+	$(CC) $(CFLAGS) --coverage $(STANDART)  test.cc s21_matrix_oop.cpp -o gcov_report -lgtest 
 	./gcov_report
-	lcov -t "stest" -o s21_test.info -c -d .
-	genhtml -o report s21_test.info
-	open ./report/index.html
+	lcov -t "stest" -o test.info -c -d . --no-external
+	genhtml -o report test.info
+	open report/index.html

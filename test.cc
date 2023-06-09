@@ -5,7 +5,6 @@ int main() {
     testing::InitGoogleTest();
     return RUN_ALL_TESTS();
 }
-
 namespace {
 
     TEST(Constructor, Default) {
