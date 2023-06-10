@@ -13,7 +13,7 @@ build_lib: objects
 	@ranlib s21_matrix_oop.a
 
 objects:
-	@$(CC) $(CFLAGS) $(STANDART) -c s21_matrix_oop.cpp
+	@$(CC) $(CFLAGS) $(STANDART) -c s21_matrix_oop.cc
 
 test: s21_matrix_oop.a test.cc
 	@$(CC) $(CFLAGS) $(STANDART) $(TESTFLAGS) $(TESTFILES) s21_matrix_oop.a -o unit_tests
@@ -29,7 +29,7 @@ clean:
 rebuild: clean all
 
 gcov_report: clean
-	$(CC) $(CFLAGS) --coverage $(STANDART)  test.cc s21_matrix_oop.cpp -o gcov_report -lgtest 
+	$(CC) $(CFLAGS) --coverage $(STANDART)  test.cc s21_matrix_oop.cc -o gcov_report -lgtest 
 	./gcov_report
 	lcov -t "stest" -o test.info -c -d . --no-external
 	genhtml -o report test.info
