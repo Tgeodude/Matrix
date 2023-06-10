@@ -9,8 +9,8 @@ class S21Matrix {
  public:
 	S21Matrix();
 	S21Matrix(int rows, int cols);
-	S21Matrix(const S21Matrix& other);
-	S21Matrix(S21Matrix&& other);
+	S21Matrix(const S21Matrix& other); // переписать
+	S21Matrix(S21Matrix&& other); // переписать
 	~S21Matrix();
 
 	bool EqMatrix(const S21Matrix& other) const;
@@ -24,7 +24,6 @@ class S21Matrix {
 	S21Matrix InverseMatrix() const;
 
 	S21Matrix& operator=(const S21Matrix& other);
-	S21Matrix& operator=(S21Matrix&& other);
 	S21Matrix& operator+=(const S21Matrix& other);
 	S21Matrix& operator-=(const S21Matrix& other);
 	S21Matrix& operator*=(const S21Matrix& other);

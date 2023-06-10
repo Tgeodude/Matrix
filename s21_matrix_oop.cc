@@ -19,13 +19,7 @@ S21Matrix::S21Matrix(int rows, int cols) {
 
 S21Matrix::S21Matrix() : S21Matrix(3, 3) {}
 
-S21Matrix::S21Matrix(const S21Matrix& other) : S21Matrix(other.rows_, other.cols_) {
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < cols_; j++) {
-      matrix_[i][j] = other[i][j];
-    }
-  }
-}
+S21Matrix::S21Matrix(const S21Matrix& other) : S21Matrix(other.rows_, other.cols_) { operator=(other); }
 
 S21Matrix::S21Matrix(S21Matrix&& other) : S21Matrix(other.rows_, other.cols_) {
   matrix_ = other.matrix_;
@@ -218,30 +212,15 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
     return *this;
   }
 
-  auto newMatrix = S21Matrix(other);
-  *this = std::move(newMatrix);
-  
-  return *this;
-}
-
-S21Matrix& S21Matrix::operator=(S21Matrix&& other) {
-  if (this == &other) {
-    return *this;
-  }
-
   clean();
 
   rows_ = other.rows_;
   cols_ = other.cols_;
-  matrix_ = other.matrix_;
 
-  // other = S21Matrix();
-  other.rows_ = 3;
-  other.cols_ = 3;
-  other.matrix_ = new double*[other.rows_];
-
-  for (int i = 0; i < other.rows_; i++) {
-    other.matrix_[i] = new double[other.cols_];
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
+      matrix_[i][j] = other[i][j];
+    }
   }
 
   return *this;
