@@ -19,15 +19,30 @@ S21Matrix::S21Matrix(int rows, int cols) {
 
 S21Matrix::S21Matrix() : S21Matrix(3, 3) {}
 
-S21Matrix::S21Matrix(const S21Matrix& other) : S21Matrix(other.rows_, other.cols_) { operator=(other); }
-
-S21Matrix::S21Matrix(S21Matrix&& other) : S21Matrix(other.rows_, other.cols_) {
-  matrix_ = other.matrix_;
-
-  other = S21Matrix();
+S21Matrix::S21Matrix(const S21Matrix& other) : S21Matrix(other.rows_, other.cols_) { 
+  operator=(other);
 }
 
+S21Matrix::S21Matrix(S21Matrix&& other) {
+  rows_ = other.rows_;
+  cols_ = other.cols_;
+  matrix_ = other.matrix_;
+  
+  auto temp = S21Matrix();
+
+  other.rows_ = temp.rows_;
+  other.cols_ = temp.cols_;
+  other.matrix_ = temp.matrix_;
+
+  temp.matrix_ = nullptr;
+}
+
+
 void S21Matrix::clean() {
+  if (matrix_ == nullptr) {
+    return;
+  }
+
   for (int i = 0; i < rows_; i++) {
     delete[] matrix_[i];
   }
