@@ -212,14 +212,15 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
     return *this;
   }
 
-  clean();
+  SetRows(other.GetRows());
+  SetCols(other.GetCols());
 
   rows_ = other.rows_;
   cols_ = other.cols_;
 
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {
-      matrix_[i][j] = other[i][j];
+      matrix_[i][j] = other.matrix_[i][j];
     }
   }
 
