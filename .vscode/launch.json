@@ -4,7 +4,7 @@
       "name": "(lldb) Запустить",
       "type": "cppdbg",
       "request": "launch",
-      "program": "/Users/20924401/study/school_21/Matrix/a.out",
+      "program": "/Users/mkrtychanr/Code/21/CPP/Matrix/main",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${fileDirname}",

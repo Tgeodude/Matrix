@@ -1,4 +1,5 @@
 #include "s21_matrix_oop.h"
+#include <cmath>
 
 
 
@@ -61,7 +62,7 @@ bool S21Matrix::EqMatrix(const S21Matrix& other) const {
 
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {
-      if (matrix_[i][j] != other[i][j]) {
+      if (std::fabs(matrix_[i][j] - other[i][j]) > 1e-8) {
         return false;
       }
     }
@@ -161,23 +162,21 @@ double S21Matrix::Determinant() const {
   return det;
 }
 
-S21Matrix S21Matrix::getMatrix(int row, int col) const {
+void S21Matrix::getMatrix(int row, int col, const S21Matrix* result) const {
   int matrixRows = 0;
   int matrixCols = 0;
-  auto resultMatrix = S21Matrix(row, col);
+
 
   for (int i = 0; i < rows_; i++) {
     if (i == row) continue;
     matrixCols = 0;
     for (int j = 0; j < cols_; j++) {
       if (j == col) continue;
-      resultMatrix[matrixRows][matrixCols] = matrix_[i][j];
+      (*result)[matrixRows][matrixCols] = matrix_[i][j];
       matrixCols++;
     }
     matrixRows++;
   }
-
-  return resultMatrix;
 }
 
 S21Matrix S21Matrix::CalcComplements() const {
@@ -191,7 +190,8 @@ S21Matrix S21Matrix::CalcComplements() const {
 
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {
-      minor = getMatrix(i, j);
+      S21Matrix minor(rows_ - 1, cols_ - 1);
+      getMatrix(i, j, &minor);
       determinant = minor.Determinant();
       res.matrix_[i][j] = pow(-1, i + j) * determinant;
     }
@@ -230,8 +230,8 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
   SetRows(other.GetRows());
   SetCols(other.GetCols());
 
-  rows_ = other.rows_;
-  cols_ = other.cols_;
+  // rows_ = other.rows_;
+  // cols_ = other.cols_;
 
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {

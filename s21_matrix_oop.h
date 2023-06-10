@@ -40,7 +40,7 @@ class S21Matrix {
   int rows_ = 0;
   int cols_ = 0;
   double** matrix_ = nullptr;
-	S21Matrix getMatrix(int row, int col) const;
+	void getMatrix(int row, int col, const S21Matrix* result) const;
 	void clean();
 };
 
