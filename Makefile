@@ -25,6 +25,7 @@ check: test
 clean:
 	rm -rf *.o *.out s21_matrix_oop.a unit_tests
 	rm -rf *.gcda *.gcno report gcov_report.* gcov_report *.info
+	rm -rf main
 
 rebuild: clean all
 
@@ -34,3 +35,7 @@ gcov_report: clean
 	lcov -t "stest" -o test.info -c -d . --no-external
 	genhtml -o report test.info
 	open report/index.html
+
+
+main: clean
+	$(CC) $(STANDART) main.cpp s21_matrix_oop.cc -o main -g
