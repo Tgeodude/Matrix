@@ -62,7 +62,7 @@ bool S21Matrix::EqMatrix(const S21Matrix& other) const {
 
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {
-      if (std::fabs(matrix_[i][j] - other[i][j]) > 1e-8) {
+      if (std::fabs(matrix_[i][j] - other[i][j]) > 1e-6) {
         return false;
       }
     }
@@ -313,7 +313,13 @@ void S21Matrix::SetRows(int rows) {
     }
   }
 
-  *this = std::move(newMatrix);
+  clean();
+
+  this->rows_ = newMatrix.rows_;
+  this->cols_ = newMatrix.cols_;
+  this->matrix_ = newMatrix.matrix_;
+
+  newMatrix.matrix_ = nullptr;
 }
 
 void S21Matrix::SetCols(int cols) {
@@ -337,7 +343,13 @@ void S21Matrix::SetCols(int cols) {
     }
   }
 
-  *this = std::move(newMatrix);
+  clean();
+
+  this->rows_ = newMatrix.rows_;
+  this->cols_ = newMatrix.cols_;
+  this->matrix_ = newMatrix.matrix_;
+
+  newMatrix.matrix_ = nullptr;
 }
 
 S21Matrix operator+(const S21Matrix& lhs, const S21Matrix& rhs) {
