@@ -36,6 +36,7 @@ gcov_report: clean
 	genhtml -o report test.info
 	open report/index.html
 
-
-main: clean
-	$(CC) $(STANDART) main.cpp s21_matrix_oop.cc -o main -g
+style_check:
+	cp../materials/linters/.clang-format .
+	clang-format -i *h. *.cc
+	rm -rf clang-format

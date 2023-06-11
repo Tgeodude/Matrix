@@ -79,7 +79,6 @@ namespace {
             }
         }
         auto test2 = test1;
-        test1 *= test2;
         test1 = test1 * test2;
         test2[0][0] = 30;
         test2[0][1] = 36;
