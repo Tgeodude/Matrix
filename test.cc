@@ -90,7 +90,7 @@ namespace {
         test2[2][0] = 102;
         test2[2][1] = 126;
         test2[2][2] = 150;
-        EXPECT_TRUE((test1 == test2));
+        EXPECT_EQ(test1, test2);
     }
 
        TEST(LinearOperations, Transpose) {
