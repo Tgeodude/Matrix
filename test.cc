@@ -71,27 +71,27 @@ namespace {
         EXPECT_EQ(test1(0, 0), 15);
     }
 
-    // TEST(SimpleMathOperations, MulMatrix) {
-    //     auto test1 = S21Matrix(3, 3);
-    //     for (int i = 0; i < test1.GetRows(); i++) {
-    //         for (int j = 0; j < test1.GetCols(); j++) {
-    //             test1[i][j] = test1.GetRows() * i + j + 1;
-    //         }
-    //     }
-    //     auto test2 = test1;
-    //     test1 *= test2;
-    //     test1 = test1 * test2;
-    //     test2[0][0] = 30;
-    //     test2[0][1] = 36;
-    //     test2[0][2] = 42;
-    //     test2[1][0] = 66;
-    //     test2[1][1] = 81;
-    //     test2[1][2] = 96;
-    //     test2[2][0] = 102;
-    //     test2[2][1] = 126;
-    //     test2[2][2] = 150;
-    //     EXPECT_TRUE((test1 == test2));
-    // }
+    TEST(SimpleMathOperations, MulMatrix) {
+        auto test1 = S21Matrix(3, 3);
+        for (int i = 0; i < test1.GetRows(); i++) {
+            for (int j = 0; j < test1.GetCols(); j++) {
+                test1[i][j] = test1.GetRows() * i + j + 1;
+            }
+        }
+        auto test2 = test1;
+        test1 *= test2;
+        test1 = test1 * test2;
+        test2[0][0] = 30;
+        test2[0][1] = 36;
+        test2[0][2] = 42;
+        test2[1][0] = 66;
+        test2[1][1] = 81;
+        test2[1][2] = 96;
+        test2[2][0] = 102;
+        test2[2][1] = 126;
+        test2[2][2] = 150;
+        EXPECT_TRUE((test1 == test2));
+    }
 
        TEST(LinearOperations, Transpose) {
         auto test1 = S21Matrix(3, 3);
